@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:googleapis/dialogflow/v2.dart';
 import 'package:googleapis_auth/auth_io.dart';
-
+import 'package:flutter/services.dart';
 
 
 void main() => runApp(new MyApp());
@@ -127,21 +127,10 @@ class _ChatMessagesState extends State<ChatMessages>
   }
 
   void _initChatbot() async {
-    var credentials = new ServiceAccountCredentials.fromJson({
-      "type": "service_account",
-      "project_id": "chatbot-gdg",
-      "private_key_id": "84a336b721f416a95bbc0259d709586ac2dde9ee",
-      "private_key":
-      "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDh2nsQShXmvH/y\nds36jRj83vnnN860VLeXrxBc/bUsjzTL89noG7OOj2TX6NZKZsP8FhWgY5VbHqOb\n6T7vQBitop/6et7ty6Vz0NKjmHEM+Zoja6nO1A+vGbybLnvd/euJWdGKjaK7ydoa\ntAeteY1TcnJM9HGTwt842kIxd4H9VfYOIFV2AL4QPEbdLtc6y+cHpbTfX2TF1H/a\ng7G6Ew+NSB/t4xkjFyL3WJ+GjQ+MgdYwCg25Vj2PkGSjVUOVb8uJGuShARJzVaGN\npVT2R35IQ85ppMEpavO9yc0Mfq9HYToX8J6bPm8EcZmhupwRImk/ZWUJslIT/mT+\nfrwUHY21AgMBAAECggEABTmF9tHP7ZVhDZO1PEm57qPsBIKah5z1yf/RJQMaaZxS\ne1lcZVn1eGiQpEM+QTVJYzcgfvL4pcWEhlOniNMKYZHq1Lvc7b7gXET7anWUP+1I\nahcLbyBJMw8Vlt/ifOi5sj19JHN4peF36BtPwTvTAOb0LX4th61Onqc5mshsbLSF\n8AdSi16C+g4XJ2mDpDYHvV0MgDZXsWxgeRhyC8DE0BR4KhrXw4XIuQ7uOgqViGao\np4nvTV4sy5XhY+ie8xtZbLS2sDEb5sMTJrbEPbwOC24lNN+JpwX/KSFderGauYWC\nLKijbuRkdFp6DaJDNeJOT6PD+TQa0XBAMQuPysEA7QKBgQD0W3IpuIcrhBHKJNt8\nxKFCZCNQdUJetXFugMsfoOX8CIqNiqlDis8Oh0YsFQGtvVE2rV6ggnVXDMC7mh8M\nZKPcCKC0pkCxwkRlcHlNgbjkn1oqLG5dcZhGTvdwn35RbGShaj60BLLKygiWwkLL\nipehxuBVrWVeVekNCPzKYt2MzwKBgQDsnVWhz2c5vK51gRMTJX7VRJh1HPw3bDhn\nSKd6spgnIabdYUa92q4AgBTA+sQf+9BQN97WgQRb2uEbzafGudhNYIBDwHBtfp9C\nEpY8FHq9BlzCZXuINppQKdoxwo8LgotU8EuPgrb6rIEM1G0PWsKMBDC/tE0AG3MY\ne9r8MvrGOwKBgEtlD8N5sRMnK8oAN0y26r6uYQsJMxI/z6D10jaPEYcDJ6TmfLVf\nVeW4rVkanir6N92z/ndt6UCTqb/4nM3ZG4nfi55RkbKHK01VN8hHV0ILPOm4TdE9\nJGvFH6m7PGFpHV+EhZZLwNK7JY1GoQ9mUsTStRMabiV+QmsIM99KQ+uXAoGBAM4q\nHKXbgDbXhy8NIyCoqAWNOkW41q431kFwFbWcDWTzNmBoVOoxszDuaKbpGKBBmfV7\naOeADNs4MLI4E/rcjXKGJdxivdM54+v/I/X/Zh5zf7lGEUfTQ8ubW+nFezvtKBf/\nM+c8XtC2I8+Y+9nIHAFB2XP/1qPERxnLOThL9yNnAoGAPXoUMWONsAQNenzX5hg/\nAp7W39io9vpqgGJQYbchbQdPNSuSB/PUU8BvizGaka2H5xm99KjzbCQYI+aC/lOs\nx0wgC6ul2ammNYCiHlIaZ3AunWGxiMCRYkgwFh+xg1tKv3coghylSG3K/XdG43Jq\n0kkYkkf5i+pVPLTmV/q3FnQ=\n-----END PRIVATE KEY-----\n",
-      "client_email": "chatbot@chatbot-gdg.iam.gserviceaccount.com",
-      "client_id": "100491250244467129562",
-      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-      "token_uri": "https://accounts.google.com/o/oauth2/token",
-      "auth_provider_x509_cert_url":
-      "https://www.googleapis.com/oauth2/v1/certs",
-      "client_x509_cert_url":
-      "https://www.googleapis.com/robot/v1/metadata/x509/chatbot%40chatbot-gdg.iam.gserviceaccount.com"
-    });
+    String configString = await rootBundle.loadString('config/dialogflow.json');
+    String _dialogFlowConfig = configString;
+
+    var credentials = new ServiceAccountCredentials.fromJson(_dialogFlowConfig);
 
     const _SCOPES = const [DialogflowApi.CloudPlatformScope];
 
